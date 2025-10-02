@@ -12,18 +12,23 @@ function Home({ addToCart }) {
 	const limit = 12;
 
 	useEffect(() => {
-		setLoading(true);
-		let url = `https://dummyjson.com/products?limit=${limit}&skip=${(page-1)*limit}`;
-		if (filters.search) url += `&q=${encodeURIComponent(filters.search)}`;
-		if (filters.category) url += `&category=${encodeURIComponent(filters.category)}`;
-		fetch(url)
-			.then(res => res.json())
-			.then(data => {
-				setProducts(data.products);
-				setTotal(data.total);
-				setLoading(false);
-			})
-			.catch(e => { setError('Failed to load products'); setLoading(false); });
+		   setLoading(true);
+		   let url = '';
+		   if (filters.search) {
+			   url = `https://dummyjson.com/products/search?q=${encodeURIComponent(filters.search)}&limit=${limit}&skip=${(page-1)*limit}`;
+		   } else if (filters.category) {
+			   url = `https://dummyjson.com/products/category/${encodeURIComponent(filters.category)}?limit=${limit}&skip=${(page-1)*limit}`;
+		   } else {
+			   url = `https://dummyjson.com/products?limit=${limit}&skip=${(page-1)*limit}`;
+		   }
+		   fetch(url)
+			   .then(res => res.json())
+			   .then(data => {
+				   setProducts(data.products);
+				   setTotal(data.total);
+				   setLoading(false);
+			   })
+			   .catch(e => { setError('Failed to load products'); setLoading(false); });
 	}, [filters, page]);
 
 	const handleFilter = (newFilters) => {

@@ -2,7 +2,6 @@
 import { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import './styles/index.css';
-import Header from './components/Header.jsx';
 import Navbar from './components/Navbar.jsx';
 import Home from './components/Home.jsx';
 import ProductPage from './components/ProductPage.jsx';
