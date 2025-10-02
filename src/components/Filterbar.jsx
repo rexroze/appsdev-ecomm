@@ -6,9 +6,16 @@ function Filterbar({ onFilter }) {
 	const [categories, setCategories] = useState([]);
 
 	useEffect(() => {
-		   fetch('https://dummyjson.com/products/category-list')
+		   fetch('https://dummyjson.com/products/categories')
 			   .then(res => res.json())
-			   .then(data => setCategories(data));
+			   .then(data => {
+				   // If API returns array of objects, map to names; else use as is
+				   if (Array.isArray(data) && data.length > 0 && typeof data[0] === 'object') {
+					   setCategories(data.map(cat => cat.name || cat.slug || String(cat)));
+				   } else {
+					   setCategories(data);
+				   }
+			   });
 	}, []);
 
 	return (
